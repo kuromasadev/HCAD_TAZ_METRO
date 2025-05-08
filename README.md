@@ -55,8 +55,11 @@ Notable Observations from test 5-set samples
 Currency Conversion Summary:
 
 appr_val: 12174 rows processed | 610 nulls filled | original type was float64
+
 tot_appr_val: 12174 rows processed | 8 nulls filled | original type was object
+
 mkt_val: 12174 rows processed | 610 nulls filled | original type was float64
+
 tot_mkt_val: 12174 rows processed | 8 nulls filled | original type was object
 
 *Important Column Mismatches* 
