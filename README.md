@@ -50,7 +50,7 @@ Collected 1198 valid records (attempt 3)
 
 Notable Observations from test 5-set samples
 
-*Data Types between GIS and Real Property does not match*
+###### *Data Types between GIS and Real Property does not match*
 
 Currency Conversion Summary:
 
@@ -62,14 +62,18 @@ mkt_val: 12174 rows processed | 610 nulls filled | original type was float64
 
 tot_mkt_val: 12174 rows processed | 8 nulls filled | original type was object
 
-*Important Column Mismatches* 
+###### *Important Column Mismatches* 
 
 Column Mismatches Found:
 
 HCAD_NUM vs acct_clean: 8 records do not match (0.07% of total)
+
 state_class_y vs state_class_x: 1162 records do not match (9.54% of total)
+
 appr_val vs tot_appr_val: 14 records do not match (0.11% of total)
+
 mkt_val vs tot_mkt_val: 14 records do not match (0.11% of total)
+
 
 ## Step 3: Calculating Overlay Analysis 
 
