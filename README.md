@@ -74,7 +74,6 @@ appr_val vs tot_appr_val: 14 records do not match (0.11% of total)
 
 mkt_val vs tot_mkt_val: 14 records do not match (0.11% of total)
 
-
 ## Step 3: Calculating Overlay Analysis 
 
 ## Step 4: Run a random forest model to determine the current random "snapshot" generalization of the METRO Service Area
