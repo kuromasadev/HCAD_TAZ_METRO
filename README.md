@@ -144,4 +144,41 @@ By exploring the correlation between barriers (railroad crossings and bridges) t
 
 
 
-## Step 4: "Snapshot" generalization of the METRO Service Area
+## Step 4: METRO Area "Snapshot"
+
+Randomized sampling generalization of parcels. 
+
+### Correlation between baseline HCAD attributes 
+
+Without adding any demographic overlays, the first pass studies the correlation between assessed value, year improved, acreage and market area. 
+
+<img src="GRAPHS\Land_Model_var_matrix.svg" alt="Description" width="500"/>
+
+Without reclassifying or regrouping the state class codes into more ESRI-compatible land uses, two main categories are highlighted due to their causal nature to transit services: Housing and Commercial. 
+
+<img src="GRAPHS\Land_Housing_Value.svg" alt="Description" width="1200"/>
+
+<img src="GRAPHS\Land_Commercial_Value.svg" alt="Description" width="1200"/>
+
+### Regression Variable Model Runs 
+
+#### Run 01
+
+- Dependent Variable: tot_appr_val
+- Only ~5.1% of the variation in appraised value is explained by property class alone.
+- The model is statistically significant overall.
+- R² was low → Property class alone is not a strong predictor of value
+- Jarque-Bera test and skew = 7.3 → distribution is heavily non-normal
+
+#### Run 02
+
+- Model now explains 28.1% of the variance in assessed values.
+- Each year older decreases log value by ~1% (statistically significant, p = 0.019)
+- Each additional acre increases log value by ~24% (strongest continuous predictor)
+
+#### Log Summaries 
+
+<img src="GRAPHS\Land_Model_AvF_comp.svg" alt="Description" width="800"/>
+
+<img src="GRAPHS\Land_Model_RvF_comp.svg" alt="Description" width="800"/>
+
