@@ -1,184 +1,50 @@
 # HCAD_TAZ_METRO
-Harris County Appraisal District Parcels within Houston Metro Service Area
+## Reframing Transit Corridor Investment Readiness Through Land-Based Analysis
 
-### Executive Summary
+*Harris County Appraisal District Parcels within Houston Metro Service Area*
 
-Collecting and analyzing random samples of parcels to determine at any given selection: 
+![Random Samplings of HCAD Parcels within METRO Service Area](REF/image.png)
 
-- [ ] Data about the parcel itself
+Traditionally, transit planning focuses on demographic and ridership indicators to guide corridor investment. While population density and socioeconomic metrics remain important, this approach often overlooks the foundational influence of Texan **land characteristics** on both current and future transit viability. This project proposes a reframed, **land-centered methodology** to assess readiness for transit investment across the METRO Service Area.
 
-- *Parcel Count Share between City of Houston vs other municipalities (incl unincorporated)*
-- **spread of state class**, *land use code and building type*
+### Objective 
 
-- [x] Data about physical access to transit
+To develop a **TAZ (Traffic Analysis Zone) Transit Readiness Index** rooted in the economic and structural characteristics of land—independent of population trends or current ridership—thereby enabling the agency to proactively identify high-opportunity areas for infrastructure and service investment.
 
-- Distance to the nearest Transit Center
-- Distance to the nearest commuter park and ride 
-- Distance to the nearest LRT station
+### **Data Integration**
 
-- [x] Data about physical barriers to transit 
+This approach merges two core datasets:
 
-- bridges within 1 mile radius
-- railroad crossings within 1 mile radius
-- *freeway within 1 mile radius*
+1. **Appraisal District Parcel Data (HCAD)** – capturing the physical, categorical, and valuation-based attributes of land across Harris County.
+2. **Traffic Analysis Zones (TAZs)** – representing the spatial framework used in transportation modeling, capital planning, and performance tracking.
 
-## Step 1: Randomized Sample of Parcels 
 
-Geometries within METRO Service Area
 
-![alt text](REF/image.png)
+### **Analytical Model**
 
-### Validating Randomized Samples
+A **tree-based Random Forest regression model** was constructed to estimate each parcel’s economic value based on land attributes alone. Key model inputs included:
 
-Independent Randomized Samples, initially set at 5, collected 500 at a time, filtering out records without geometry and skipping repeating. Each record is given a hex code, and the sample set is given an ID to prepare summaries.
+- **Generalized Land Use Code (LBCS)**
+- **State Property Class Description**
+- **Parcel Acreage**
+- **Year of Improvement Construction**
 
-Example: 
+The model’s output, a predicted **log-transformed appraised value**, serves as a **proxy for land economic intensity**—a structural indicator of how the land *should* perform given its characteristics, irrespective of demographic conditions.
 
-Collected 394 valid records (attempt 1)
-Collected 807 valid records (attempt 2)
-Collected 1210 valid records (attempt 3)
+By comparing the **actual appraised value** to the model’s predicted value, we derive a **residual score** that flags potential "underperformance."
 
-Collected 403 valid records (attempt 1)
-Collected 802 valid records (attempt 2)
-Collected 1220 valid records (attempt 3)
 
-Collected 403 valid records (attempt 1)
-Collected 806 valid records (attempt 2)
-Collected 1217 valid records (attempt 3)
 
-Collected 422 valid records (attempt 1)
-Collected 829 valid records (attempt 2)
-Collected 1242 valid records (attempt 3)
+### **TAZ Readiness Index**
 
-Collected 408 valid records (attempt 1)
-Collected 804 valid records (attempt 2)
-Collected 1198 valid records (attempt 3)
+The proposed final product is a weighted **TAZ Transit Readiness Index**, incorporating a set of factors:
 
-### Confidence in Sampling 
+| Component                        | Description                                        | Weight (TBD) |
+| -------------------------------- | -------------------------------------------------- | ------------ |
+| **Model Residual Score**         | Difference between predicted and actual land value |              |
+| **Parcel Redevelopment Profile** | Acreage and improvement age mix                    |              |
+| **Infrastructure Access**        | Proximity to arterials, transit, and utilities     |              |
+| **Regulatory Alignment**         | Zoning/buildout potential vs. current use          |              |
+| **Perception Proxy**             | Crime rates, vacancy patterns, nearby investment   |              |
 
-- [Link to wiki](https://github.com/kuromasadev/HCAD_TAZ_METRO/wiki/HCAD-METRO-Service-Area-Sampling)
-
-
-
-## Step 2: Extracting Collected Account Numbers and Real Property Data
-
-Notable Observations from test 5-set samples
-
-### GIS and Real Property Datasets 
-
-Currency Conversion Summary, due to mismatch:
-
-appr_val: 12174 rows processed | 610 nulls filled | original type was float64
-
-tot_appr_val: 12174 rows processed | 8 nulls filled | original type was object
-
-mkt_val: 12174 rows processed | 610 nulls filled | original type was float64
-
-tot_mkt_val: 12174 rows processed | 8 nulls filled | original type was object
-
-### Column Mismatches 
-
-Column Mismatches Found:
-
-HCAD_NUM vs acct_clean: 8 records do not match (0.07% of total)
-
-state_class_y vs state_class_x: 1162 records do not match (9.54% of total)
-
-appr_val vs tot_appr_val: 14 records do not match (0.11% of total)
-
-mkt_val vs tot_mkt_val: 14 records do not match (0.11% of total)
-
-
-
-## Step 3: Transit Access Point Analysis 
-
-<img src="GRAPHS\TC_PnR_qtmi_access.svg" alt="Description" width="700"/>
-
-Across the five sample sets, only three had "hits", meaning there was a transit center or park and ride within 1/4 mile. Less than 1% hits to a Park & Ride or Transit Center when considering random sampling of all parcels within the Service Area. This indicates that at a purely Euclidian perspective, there might be statistical significance to the distance between each parcel and the nearest transit access point. 
-
-### One-Way ANOVA Across Access Types (Combined Samples) 
-
-F-statistic: 5194.7828 
-
-P-value: 0 → Significant difference in means between access types (p < 0.05) 
-
-There is a statistically significant difference in mean distances among the access types (Transit Center, Park and Ride, LRT) — both overall and within each sample set. 
-
-<img src="GRAPHS\TAP_MeanDistComparison.svg" alt="Description" width="500"/>
-
-<img src="GRAPHS\TAP_DistComparison.svg" alt="Description" width="800"/>
-
-A Tukey post hoc analysis was conducted following a significant one-way ANOVA, revealing that mean distances to all transit access types statistically differ significantly from one another.
-
-> **Observation**
->
-> Park & Rides serve more peripheral areas, while LRT stations and Transit Centers tend to be located closer to developed urban cores or high-demand parcels.
-
-#### Notes
-
-\- Transit Centers are on average 8.76 miles closer than Park & Rides
-
-\- LRT access is 15.39-mile average distance closer to properties than Transit Center
-
-### Barriers to Accessibility Scatter
-
-By exploring the correlation between barriers (railroad crossings and bridges) to access to transit centers or park and ride facilities, one can establish a validated hypothesis regarding the trend. 
-
-<img src="GRAPHS\TC_Barrier_Distance_Sample.svg" alt="Description" width="1200"/>
-
-<img src="GRAPHS\PnR_Barrier_Distance_Sample.svg" alt="Description" width="1200"/>
-
-<img src="GRAPHS\TC_PnR_BarrierComparison.svg" alt="Description" width="1200"/>
-
-> **Observation**
->
-> Parcels farther from Park & Rides are slightly more likely to encounter more physical barriers
->
-> Park & Ride facilities may be more likely placed near freeways or rail corridors, which already have higher bridge and railroad density.
-
-#### Notes
-
-\- Distance doesn't account for network impedance
-
-\- The barrier count is within a fixed radius 
-
-
-
-## Step 4: METRO Area "Snapshot"
-
-Randomized sampling generalization of parcels. 
-
-### Correlation between baseline HCAD attributes 
-
-Without adding any demographic overlays, the first pass studies the correlation between assessed value, year improved, acreage and market area. 
-
-<img src="GRAPHS\Land_Model_var_matrix.svg" alt="Description" width="500"/>
-
-Without reclassifying or regrouping the state class codes into more ESRI-compatible land uses, two main categories are highlighted due to their causal nature to transit services: Housing and Commercial. 
-
-<img src="GRAPHS\Land_Housing_Value.svg" alt="Description" width="1200"/>
-
-<img src="GRAPHS\Land_Commercial_Value.svg" alt="Description" width="1200"/>
-
-### Regression Variable Model Runs 
-
-#### Run 01
-
-- Dependent Variable: tot_appr_val
-- Only ~5.1% of the variation in appraised value is explained by property class alone.
-- The model is statistically significant overall.
-- R² was low → Property class alone is not a strong predictor of value
-- Jarque-Bera test and skew = 7.3 → distribution is heavily non-normal
-
-#### Run 02
-
-- Model now explains 28.1% of the variance in assessed values.
-- Each year older decreases log value by ~1% (statistically significant, p = 0.019)
-- Each additional acre increases log value by ~24% (strongest continuous predictor)
-
-#### Log Summaries 
-
-<img src="GRAPHS\Land_Model_AvF_comp.svg" alt="Description" width="800"/>
-
-<img src="GRAPHS\Land_Model_RvF_comp.svg" alt="Description" width="800"/>
-
+This index identifies and ranks TAZs as **Ready**, **Emerging**, or **Constrained**, enabling targeted investment in transit-supportive infrastructure and services.
