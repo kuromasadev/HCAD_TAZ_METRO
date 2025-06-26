@@ -3,6 +3,12 @@
 
 *Harris County Appraisal District Parcels within Houston Metro Service Area*
 
+<nav>
+  <a href="/">Home</a>
+  <a href="https://github.com/kuromasadev/HCAD_TAZ_METRO/wiki" target="_blank">     Project Docs</a>
+</nav>
+
+
 ![Random Samplings of HCAD Parcels within METRO Service Area](REF/image.png)
 
 Traditionally, transit planning focuses on demographic and ridership indicators to guide corridor investment. While population density and socioeconomic metrics remain important, this approach often overlooks the foundational influence of Texan **land characteristics** on both current and future transit viability. This project proposes a reframed, **land-centered methodology** to assess readiness for transit investment across the METRO Service Area.
